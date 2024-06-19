@@ -1,0 +1,174 @@
+{% load static %}
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #D6EEEE;
+        }
+        .mar2{
+            margin: 20px 0 22px 0;
+        }
+    </style>
+</head>
+
+<body style="background-color:silver;">
+    <h1>user : {{user.username}}</h1>
+    <h3>status : {{grouptype}}</h2>
+    <center>
+        <img src="{% static 'nulogo.png' %}" width="150" height="150">
+        <h1>Table of Stock</h1>
+        {%if checkuser%}
+            <button type="button" class="mar2">
+                <a href="{% url 'insert'%}">ไปหน้าเพิ่มข้อมูล</a>
+            </button>
+        {%endif%}
+            <button type="button" class="mar2">
+                <a href="{% url 'sign_in'%}">logout</a>
+            </button>
+        <div class="form-group 6">
+            <input type="text" placeholder="Search stock"
+                name="product_id_search" id="liveSearch" onkeyup="searchFunction()">
+        </div>
+        <table id="myTable" class="mar2">
+            <thead>
+                <tr>
+                    <th>product id</th>
+                    <th>product name</th>
+                    <th>unit name</th>
+                    <th>amount</th>
+                    <th>status id</th>
+                    {%if checkuser%}
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    {%endif%}
+                    <th>Borrow</th>
+
+                </tr>
+            </thead>
+
+            {% for instance in data %}
+            <tr>
+                <td x=instance.product_id>
+                    {{ instance.product_id}}
+                </td>
+     
+                <td style="text-align:left;">
+                    {{ instance.product_name}}
+                </td>
+                <td>
+                    {{ instance.unit.unit_name}}
+                </td>
+                <td>
+                    {{ instance.amount}}
+                </td>
+                <td>
+                    {% if instance.status_id == 1 %}
+                    <font color="green">พร้อมใช้งาน</font>
+                    {% else %}
+                    <font color="red">ไม่พร้อมใช้งาน</font>
+                    {% endif %}
+                </td>
+                {%if checkuser%}
+                <td class="text_center">
+                    <div class="btn_group">
+                        <a href = "{% url 'update' instance.product_id%}" > แก้ไข </a>
+                    </div>
+                </td>
+                <td class="text_center">
+                    <div class="btn_group">
+                        <a href="/delete/{{instance.product_id}}" onclick="return confirm('Are you sure to delete?')">
+                            <font color="black">ลบข้อมูล</font>
+                        </a>
+                    </div>
+                </td>
+                {%endif%}
+                <td class="text_center">
+                    {% if instance.status_id == 1 %}
+                        <div class="open-button">
+                        <a href="{% url 'borrow' instance.product_id %}"><font color="blue"> ยืม </font></a>
+                        </div>
+                    {% else %}
+                    <font color="red">ไม่ให้ยืม</font>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+        <p id="msg"></p>
+    </center>
+<!-- ตุตุง   pop up borrow
+<div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+        <center>
+            <h1>ยืมสินค้า</h1>
+        </center>
+
+        <label for="product_id"><b>รหัสสินค้า</b></label>
+        <input type="text" placeholder={{instance.product_id}} name="product_id" required>
+
+        <label for="amount_borrow"><b>จำนวนที่จะยืม</b></label>
+        <input type="text" placeholder="กรอกจำนวนที่จะยืม" name="amount_borrow" required>
+
+        <button type="submit" class="btn">ตกลง</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">ปิด</button>
+    </form>
+</div> -->
+    <script>
+        function searchFunction() {
+            let input, filter, table, td, tr, j;
+            input = document.getElementById("liveSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            console.log(filter);
+            for (j = 0; j < tr.length; j++) {
+                td = tr[j].getElementsByTagName("td");
+
+                if (td.length > 0) {
+                    if (td[0].innerHTML.toLocaleUpperCase().indexOf(filter) > -1 ||
+                        td[1].innerHTML.toLocaleUpperCase().indexOf(filter) > -1
+                    ) {
+                        tr[j].style.display = ""
+                    }
+                    else {
+                        tr[j].style.display = "none"
+                    }
+                }
+            
+            }
+        }
+        // function openForm() {
+        //     document.getElementById("myForm").style.display = "block";
+        // }
+
+        // function closeForm() {
+        //     document.getElementById("myForm").style.display = "none";
+        // }
+    </script>
+
+</body>
+
+</html>

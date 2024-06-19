@@ -1,0 +1,56 @@
+{% load static %}
+<html>
+
+<head>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #D6EEEE;
+        }
+    </style>
+</head>
+
+<body style="background-color:silver;">
+    <center>
+        <img src="{% static 'nulogo.png' %}" width="150" height="150">
+        <form action="#" method="post">{% csrf_token %}
+        
+        <div class="form-popup" id="myForm">
+            <form action="#" class="form-container">
+                <center><h1>ยืมสินค้า</h1></center>
+                <h3>รหัสสินค้า : {{venue.product_id}}</h3>
+                <h3>ชื่อสินค้า : {{venue.product_name}}</h3>
+                <h3>คงเหลือ : {{venue.amount}} {{unit_title}}</h3>
+                <h3 ><font size=4 color="red">{{msg}}</font></h3>
+            <div>
+                <label for="amount_borrow"><b>จำนวนที่จะยืม</b></label>
+                <input type="number" placeholder="กรอกจำนวนที่จะยืม" name="amount_borrow" step=0.01 required>
+                <input type="submit" class="btn" name="borrow" value="ยืนยัน">
+            </div>
+           {% comment %} <div>
+                <input type="submit" class="btn" name="borrow" value="ยืนยัน">
+            </div> {% endcomment %}
+        </form>
+        </div>
+        <button>
+            <a href="{% url 'index'%}">กลับหน้าหลัก</a>
+        </button> 
+    </center>
+
+
+
+</body>
+
+</html>

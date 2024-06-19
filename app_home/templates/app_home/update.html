@@ -1,0 +1,81 @@
+{% load static %}
+
+<html>
+
+<head>
+    <title>Update | nu</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .mar {
+            margin: 20px 0 22px 0;
+          }
+    </style>
+</head>
+
+<body>
+    <center>
+        <img src="{% static 'nulogo.png' %}" width="150" height="150">
+        <h1>update</h1>
+
+        </br>
+        <!-- <form action="" method="post">{% csrf_token %} -->
+            <!-- {{from.as_p}}
+            </br>
+            <input type="submit" value="go to update"> -->
+
+        <form action="#" method="post">{% csrf_token %}
+            <div class="form-group first">
+                <input type="text" placeholder="Enter product id:"
+                value= {{venue.product_id}} name="product_id">
+            </div>
+
+            <div class="form-group 2">
+                <input type="text" placeholder="Enter product name:"
+                    value={{venue.product_name}} name="product_name">
+            </div>
+
+            <div class="form-group 3">
+                <label for="unit_name">เลือกหน่วยนับ:</label>
+                <select name="unit_name" id="unit_name">
+                    <optgroup label="หน่วยปัจจุบัน">
+                    <option value={{unit_title}}>{{unit_title}}</option> 
+                    </optgroup>
+                    <optgroup label="หน่วยทั้งหมด">
+                    {% for instance in dataunit %}
+                      <option value={{instance.unit_name}}>{{instance.unit_name}}</option>
+                    {% endfor %}
+                    </optgroup>
+                  </select>
+            </div>
+
+            <div class="form-group 4">
+                <input type="number" placeholder="Enter amount:"
+                value={{venue.amount}} name="amount" step="0.01" >
+            </div>
+
+            <div class="form-group 5">
+                <label for="status_id">สถานะ:</label>
+                <select name="status_id" id="status_id">
+                    <option value="1">พร้อมใช้งาน</option>
+                    <option value="0">ไม่พร้อมใช้งาน</option>
+                </select>
+                  
+            </div>
+            <div>
+                <font size=4 color="red">{{msg}}</font></h3>
+            </div>
+            <input class="mar" type="submit" name="update" value="แก้ไขข้อมูล">
+            <button>
+                <a href="{% url 'index'%}">กลับหน้าหลัก</a>
+            </button> 
+            
+            
+    </center>
+</body>
+
+</html>
