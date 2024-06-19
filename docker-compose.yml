@@ -6,7 +6,7 @@ services:
     command: "python manage.py runserver 0.0.0.0:8000"
     container_name: stockwebapp
     volumes:
-      - /home/pemadee/login_web/testenv/testproject:/app
+      - /home/panupong/Panu/realstockweb:/app
     
     expose:
       - "8000"

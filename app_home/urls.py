@@ -3,8 +3,8 @@ from . import views
 
 urlpatterns = [
     path('',views.sign_in,name='sign_in'),
-    path('index',views.index,name="index"),
-    path('home',views.home,name='home'),
+    path('stockweb/index',views.index,name="index"),
+    path('stockweb/home',views.home,name='home'),
     path('insert',views.insert,name='insert'),
     path('borrow',views.borrow,name='borrow'),
     path('delete/<product_id>',views.delete,name='delete'),
